@@ -11,9 +11,10 @@
         <li><a href="#">Examples</a></li>
         <li class="active">Blank page</li>
       </ol>
-    </section>
+</section>
 
     <!-- Main content -->
+    <div class="col-lg-12">
     <section class="content">
 
       <!-- Default box -->
@@ -28,7 +29,9 @@
               </div>
             </div>
             <!-- /.box-header -->
+
             <div class="box-body table-responsive no-padding">
+          
               <table class="table table-hover">
                 <tbody>
                 <tr>
@@ -68,7 +71,46 @@
                   <td></td>
                 </tr>
               </tbody></table>
+              <div class="col-lg-12">
+      <table class="table table-bordered">
+        <a href="{{route('obat.create')}}">Tambah Data</a>
+          <thead>
+              <tr>
+                <th>#</th>
+                <th>Nama</th>
+                <th>Jenis</th>
+                <th>Harga</th>
+                <th>Stock</th>
+                <th>Kadaluarsa</th>
+                <th>Aksi</th>
+              </tr>
+          </thead>
+            <tbody>
+               @foreach ($obat as $in=>$val )
+                  <tr>
+                    <td>{{$in+1}}</td>
+                    <td>{{$val->namaObat}}</td>
+                    <td>{{$val->jenisObat}}</td>
+                    <td>{{$val->harga}}</td>
+                    <td>{{$val->stock}}</td>
+                    <td>{{$val->kadaluarsa}}</td>
+                    <td>
+                      <a href="{{route('obat.edit',$val->Id_Obat)}}">update</a>
+                      <form action="{{route('obat.destroy',$val->Id_Obat)}}" method="POST">
+                          @csrf
+                          @method('DELETE')
+                      <button type="submit">delete</button>
+                      </form>
+                    </td>
+                  </tr>
+               @endforeach
+            </tbody>
+      </table>
+      {{$obat->links()}}
             </div>
+          </div>
+   
+          </div>
             <!-- /.box-body -->
           </div>
           <!-- /.box -->

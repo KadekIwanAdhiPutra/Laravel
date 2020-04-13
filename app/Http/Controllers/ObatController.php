@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Obat;
 use Illuminate\Http\Request;
 
 class ObatController extends Controller
@@ -13,8 +14,9 @@ class ObatController extends Controller
      */
     public function index()
     {
-        
-        return view('admin.beranda');
+        $title='obat';
+        $obat=Obat::paginate(5);
+        return view('admin.beranda',compact('title','obat'));
     }
 
     /**
@@ -24,7 +26,8 @@ class ObatController extends Controller
      */
     public function create()
     {
-        //
+        $title='input obat';
+        return view('admin.inputobat',compact('title'));
     }
 
     /**
@@ -35,7 +38,17 @@ class ObatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $messages = [
+            'required'  => 'Kolom :attribute harus lengkap',
+            'date'      => 'Kolom :attribute Harus Tanggal.',
+            'numeric'   => 'Kolom :attribute Harus Angka.',
+        ];
+        $validasi = $request->validate([
+            'namaObat'=>'required',
+            'jenisObat'=>'required',
+        ],$messages);
+        Obat::create($validasi);
+        return redirect('obat')->with('success', 'Data berhasil di update');
     }
 
     /**
@@ -57,7 +70,9 @@ class ObatController extends Controller
      */
     public function edit($id)
     {
-        //
+        $title='input obat';
+        $obat=Obat::find($id);
+        return view('admin.inputobat',compact('title','obat'));
     }
 
     /**
@@ -69,7 +84,17 @@ class ObatController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $messages = [
+            'required'  => 'Kolom :attribute harus lengkap',
+            'date'      => 'Kolom :attribute Harus Tanggal.',
+            'numeric'   => 'Kolom :attribute Harus Angka.',
+        ];
+        $validasi = $request->validate([
+            'namaObat'=>'required',
+            'jenisObat'=>'required'
+        ],$messages);
+        Obat::whereId_Obat($id)->update($validasi);
+        return redirect('Obat')->with('success', 'Data berhasil di update');
     }
 
     /**
@@ -80,6 +105,7 @@ class ObatController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Obat::whereId_Obat($id)->delete();
+        return redirect('Obat')->with('success', 'Data berhasil di update');
     }
 }
