@@ -15,5 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route :: get('/obat','ObatController@index');//
-Route :: resource ('obat','ObatController');
+//Route :: get('/karyawan','KaryawanController@index');//
+Route :: resource ('karyawan','KaryawanController');
+
+
+Route :: resource ('ppl','PplController');
+
+Auth::routes();
+
+Route::get('/home', 'KaryawanController@index')->name('home');

@@ -70,54 +70,7 @@
                 <tr>
                   <td></td>
                 </tr>
-              </tbody></table>
-              <div class="col-lg-12">
-      <table class="table table-bordered">
-        <a href="{{route('karyawan.create')}}">Tambah Data</a>
-          <thead>
-              <tr>
-                <th>#</th>
-                <th>Nama</th>
-                <th>Alamat</th>
-                <th>Gender</th>
-                <th>No</th>
-                <th>Aksi</th>
-              </tr>
-          </thead>
-            <tbody>
-               @foreach ($karyawan as $in=>$val )
-                  <tr>
-                    <td>{{$in+1}}</td>
-                    <td>{{$val->namaKaryawan}}</td>
-                    <td>{{$val->alamat}}</td>
-                    <td>{{$val->jenisKelamin}}</td>
-                    <td>{{$val->noTelp}}</td>
-                    <td>
-                      <a href="{{route('karyawan.edit',$val->Id_Karyawan)}}">update</a>
-                      <form action="{{route('karyawan.destroy',$val->Id_Karyawan)}}" method="POST">
-                          @csrf
-                          @method('DELETE')
-                      <button type="submit">delete</button>
-                      </form>
-                    </td>
-                  </tr>
-               @endforeach
-            </tbody>
-      </table>
-      {{$karyawan->links()}}
             </div>
-          </div>
-   
-          </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        
         </div>
-        
-      </div>
-      <!-- /.box -->
-
     </section>
-    <!-- /.content -->
-@endsection   
+@endsection  

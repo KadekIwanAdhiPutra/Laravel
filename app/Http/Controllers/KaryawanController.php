@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Obat;
+use App\Karyawan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
-class ObatController extends Controller
+class KaryawanController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function($request, $next){
+            if(Gate::allows('admin')) return $next($request);
+            abort(403, 'Anda tidak memiliki cukup hak akses');
+        });
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,9 +22,9 @@ class ObatController extends Controller
      */
     public function index()
     {
-        $title='obat';
-        $obat=Obat::paginate(5);
-        return view('admin.beranda',compact('title','obat'));
+        $title='karyawan';
+        $karyawan=Karyawan::paginate(2);
+        return view('admin.beranda',compact('title','karyawan'));
     }
 
     /**
@@ -26,8 +34,8 @@ class ObatController extends Controller
      */
     public function create()
     {
-        $title='input obat';
-        return view('admin.inputobat',compact('title'));
+        $title='input karyawan';
+        return view('admin.inputkaryawan',compact('title'));
     }
 
     /**
@@ -44,11 +52,11 @@ class ObatController extends Controller
             'numeric'   => 'Kolom :attribute Harus Angka.',
         ];
         $validasi = $request->validate([
-            'namaObat'=>'required',
-            'jenisObat'=>'required',
+            'namaKaryawan'=>'required',
+            'noTelp'=>'required',
         ],$messages);
-        Obat::create($validasi);
-        return redirect('obat')->with('success', 'Data berhasil di update');
+        Karyawan::create($validasi);
+        return redirect('karyawan')->with('success', 'Data berhasil di update');
     }
 
     /**
@@ -70,9 +78,9 @@ class ObatController extends Controller
      */
     public function edit($id)
     {
-        $title='input obat';
-        $obat=Obat::find($id);
-        return view('admin.inputobat',compact('title','obat'));
+        $title='input karyawan';
+        $karyawan=Karyawan::find($id);
+        return view('admin.inputkaryawan',compact('title','karyawan'));
     }
 
     /**
@@ -90,11 +98,11 @@ class ObatController extends Controller
             'numeric'   => 'Kolom :attribute Harus Angka.',
         ];
         $validasi = $request->validate([
-            'namaObat'=>'required',
-            'jenisObat'=>'required'
+            'namaKaryawan'=>'required',
+            'noTelp'=>'required'
         ],$messages);
-        Obat::whereId_Obat($id)->update($validasi);
-        return redirect('Obat')->with('success', 'Data berhasil di update');
+        Karyawan::whereId_Karyawan($id)->update($validasi);
+        return redirect('Karyawan')->with('success', 'Data berhasil di update');
     }
 
     /**
@@ -105,7 +113,7 @@ class ObatController extends Controller
      */
     public function destroy($id)
     {
-        Obat::whereId_Obat($id)->delete();
-        return redirect('Obat')->with('success', 'Data berhasil di update');
+        Karyawan::whereId_Karyawan($id)->delete();
+        return redirect('Karyawan')->with('success', 'Data berhasil di update');
     }
 }
